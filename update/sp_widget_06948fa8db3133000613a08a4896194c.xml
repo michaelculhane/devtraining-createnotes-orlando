@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function($rootScope,$scope) {
+        <client_script><![CDATA[function($rootScope,$scope,spUtil,spModal) {
 	/* widget controller */
 	var c = this;
+	
+	//spModal stuff
+  c.onWidget = function(widgetId, widgetInput) {
+        spModal.open({
+            title: 'Displaying widget ' + widgetId,
+            widget: widgetId, 
+            widgetInput: widgetInput || {}
+        }).then(function(){
+            console.log('widget dismissed');
+        })      
+    }
+	
 	// Use a position indicator to know which record to update
 	c.notePos = 0;
-
+	
+	//spUtil stuff
+	c.url = spUtil.getURL();
+	spUtil.addInfoMessage(c.url);
 	c.selectItem = function(idx) {  
 		// Set the position indicator to the index value passed in on select
 		c.notePos = idx;
@@ -62,14 +77,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-30 18:13:04</sys_created_on>
         <sys_id>06948fa8db3133000613a08a4896194c</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>13</sys_mod_count>
         <sys_name>Notes List</sys_name>
         <sys_package display_value="CreateNotes" source="x_snc_createnotes">df5fd9a5090232007f44e1046c8ff69f</sys_package>
         <sys_policy/>
         <sys_scope display_value="CreateNotes">df5fd9a5090232007f44e1046c8ff69f</sys_scope>
         <sys_update_name>sp_widget_06948fa8db3133000613a08a4896194c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-30 18:59:22</sys_updated_on>
+        <sys_updated_on>2020-10-06 02:53:37</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h3 class="panel-title pull-left">
@@ -86,6 +101,9 @@
       </p>
     </a>
   </div>
+<button ng-click="c.onWidget('widget-cool-clock')" class="btn btn-default">
+    Cool Clock
+  </button>
 </div>]]></template>
     </sp_widget>
 </record_update>
